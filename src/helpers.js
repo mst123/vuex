@@ -16,6 +16,7 @@ export const mapState = normalizeNamespace((namespace, states) => {
       let state = this.$store.state
       let getters = this.$store.getters
       if (namespace) {
+        // 通过namespace 获取 对应的module
         const module = getModuleByNamespace(this.$store, 'mapState', namespace)
         if (!module) {
           return
@@ -53,6 +54,7 @@ export const mapMutations = normalizeNamespace((namespace, mutations) => {
         if (!module) {
           return
         }
+        // module.context local
         commit = module.context.commit
       }
       return typeof val === 'function'

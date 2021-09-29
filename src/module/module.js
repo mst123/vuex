@@ -5,19 +5,21 @@ export default class Module {
   constructor (rawModule, runtime) {
     this.runtime = runtime
     // Store some children item
+    // module下的子模块 用path为key value为module
     this._children = Object.create(null)
     // Store the origin module object which passed by programmer
+    // 模块配置
     this._rawModule = rawModule
     const rawState = rawModule.state
 
     // Store the origin module's state
     this.state = (typeof rawState === 'function' ? rawState() : rawState) || {}
   }
-
+  // 是否开启命名空间
   get namespaced () {
     return !!this._rawModule.namespaced
   }
-
+  // 记录子module
   addChild (key, module) {
     this._children[key] = module
   }
@@ -46,7 +48,10 @@ export default class Module {
       this._rawModule.getters = rawModule.getters
     }
   }
-
+  // 工具函数
+  /* export function forEachValue (obj, fn) {
+    Object.keys(obj).forEach(key => fn(obj[key], key))
+  } */
   forEachChild (fn) {
     forEachValue(this._children, fn)
   }

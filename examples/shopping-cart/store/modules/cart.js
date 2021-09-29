@@ -19,7 +19,7 @@ const getters = {
       }
     })
   },
-
+  // 计算总价格
   cartTotalPrice: (state, getters) => {
     return getters.cartProducts.reduce((total, product) => {
       return total + product.price * product.quantity
@@ -47,14 +47,18 @@ const actions = {
 
   addProductToCart ({ state, commit }, product) {
     commit('setCheckoutStatus', null)
+    // 库存
     if (product.inventory > 0) {
       const cartItem = state.items.find(item => item.id === product.id)
       if (!cartItem) {
+        // 添加产品
         commit('pushProductToCart', { id: product.id })
       } else {
+        // 增加数量
         commit('incrementItemQuantity', cartItem)
       }
       // remove 1 item from stock
+      // 减库存
       commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
   }
